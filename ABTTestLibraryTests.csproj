@@ -63,48 +63,49 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ABTTestLibrary\ABTTestLibrary.csproj">
-      <Project>{314614cb-6e17-4b74-a9f9-ce4699f78c9b}</Project>
-      <Name>ABTTestLibrary</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="Ag33500B_33600A_2_09">
-      <HintPath>C:\ProgramData\Keysight\Command Expert\ScpiNetDrivers\Ag33500B_33600A_2_09.dll</HintPath>
+      <HintPath>..\..\..\..\..\ProgramData\Keysight\Command Expert\ScpiNetDrivers\Ag33500B_33600A_2_09.dll</HintPath>
     </Reference>
     <Reference Include="AgE3610XB_1_0_0_1_00">
-      <HintPath>C:\ProgramData\Keysight\Command Expert\ScpiNetDrivers\AgE3610XB_1_0_0_1_00.dll</HintPath>
+      <HintPath>..\..\..\..\..\ProgramData\Keysight\Command Expert\ScpiNetDrivers\AgE3610XB_1_0_0_1_00.dll</HintPath>
     </Reference>
     <Reference Include="AgE36200_1_0_0_1_0_2_1_00">
-      <HintPath>C:\ProgramData\Keysight\Command Expert\ScpiNetDrivers\AgE36200_1_0_0_1_0_2_1_00.dll</HintPath>
+      <HintPath>..\..\..\..\..\ProgramData\Keysight\Command Expert\ScpiNetDrivers\AgE36200_1_0_0_1_0_2_1_00.dll</HintPath>
     </Reference>
     <Reference Include="AgSCPI99_1_0">
-      <HintPath>C:\ProgramData\Keysight\Command Expert\ScpiNetDrivers\AgSCPI99_1_0.dll</HintPath>
+      <HintPath>..\..\..\..\..\ProgramData\Keysight\Command Expert\ScpiNetDrivers\AgSCPI99_1_0.dll</HintPath>
     </Reference>
-    <Reference Include="Keysight.KtE36000.Fx45, Version=1.2.0.0, Culture=neutral, PublicKeyToken=73c59175abe85f83, processorArchitecture=MSIL">
+    <Reference Include="Keysight.KtE36000.Fx45">
+      <HintPath>..\..\..\..\..\Program Files (x86)\IVI Foundation\IVI\Microsoft.NET\Framework32\v4.5.50709\Keysight.KtE36000 1.2.0\Keysight.KtE36000.Fx45.dll</HintPath>
+    </Reference>
+    <Reference Include="Keysight.KtEL30000.Fx45">
+      <HintPath>..\..\..\..\..\Program Files (x86)\IVI Foundation\IVI\Microsoft.NET\Framework32\v4.5.50709\Keysight.KtEL30000 1.1.0\Keysight.KtEL30000.Fx45.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\IVI Foundation\IVI\Microsoft.NET\Framework32\v4.5.50709\Keysight.KtE36000 1.2.0\Keysight.KtE36000.Fx45.dll</HintPath>
+      <HintPath>packages\MSTest.TestAdapter.2.2.10\build\net46\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll</HintPath>
     </Reference>
-    <Reference Include="Keysight.KtEL30000.Fx45, Version=1.1.0.0, Culture=neutral, PublicKeyToken=7e3f5d0cd5f27736, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\IVI Foundation\IVI\Microsoft.NET\Framework32\v4.5.50709\Keysight.KtEL30000 1.1.0\Keysight.KtEL30000.Fx45.dll</HintPath>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
+      <HintPath>packages\MSTest.TestFramework.2.2.10\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\ABTTestLibrary\packages\MSTest.TestFramework.2.2.10\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions">
+      <HintPath>packages\MSTest.TestFramework.2.2.10\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\ABTTestLibrary\packages\MSTest.TestFramework.2.2.10\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    <Reference Include="Serilog">
+      <HintPath>packages\Serilog.2.12.0\lib\net47\Serilog.dll</HintPath>
     </Reference>
-    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\ABTTestLibrary\packages\Serilog.2.12.0\lib\net47\Serilog.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Sinks.File, Version=5.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\ABTTestLibrary\packages\Serilog.Sinks.File.5.0.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+    <Reference Include="Serilog.Sinks.File">
+      <HintPath>packages\Serilog.Sinks.File.5.0.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ABTTestLibrary\ABTTestLibrary.csproj">
+      <Project>{314614cb-6e17-4b74-a9f9-ce4699f78c9b}</Project>
+      <Name>ABTTestLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
@@ -128,10 +129,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\ABTTestLibrary\packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\ABTTestLibrary\packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props'))" />
-    <Error Condition="!Exists('..\ABTTestLibrary\packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\ABTTestLibrary\packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets'))" />
   </Target>
   <Import Project="..\ABTTestLibrary\packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets" Condition="Exists('..\ABTTestLibrary\packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
