@@ -4,7 +4,6 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Agilent.CommandExpert.ScpiNet.AgE3610XB_1_0_0_1_00;
-using ABTTestLibrary.AppConfig;
 using ABTTestLibrary.Instruments;
 using ABTTestLibrary.Instruments.Keysight;
 
