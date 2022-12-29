@@ -9,33 +9,33 @@ using ABTTestLibrary.Instruments;
 namespace ABTTestLibraryTests.Instruments {
     [TestClass()]
     public class InstrumentTests {
-        public static Dictionary<String, Instrument> Instruments;
+        public static Dictionary<String, Instrument> instruments;
         public static DialogResult dr;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext TestContext) {
             dr = MessageBox.Show("Power ON all Instruments", "Power all ON.", MessageBoxButtons.OKCancel);
             if (dr == DialogResult.Cancel) Assert.Inconclusive();
-            Instruments = Instrument.Get();
+            instruments = Instrument.Get();
         }
 
         [TestMethod()]
         public void InstrumentTestGetTest() {
             Dictionary<String, InstrumentTest> InstrumentTests = InstrumentTest.Get();
-            Assert.AreEqual(Instruments.Count(), InstrumentTests.Count());
-            foreach (KeyValuePair<String, Instrument> i in Instruments) {
-                Assert.AreEqual(Instruments[i.Key].ID, InstrumentTests[i.Key].ID, false);
-                Assert.AreEqual(Instruments[i.Key].Address, InstrumentTests[i.Key].Address, false);
-                Assert.AreEqual(Instruments[i.Key].Category, InstrumentTests[i.Key].Category, false);
-                Assert.IsInstanceOfType(Instruments[i.Key].Instance, typeof(Object));
+            Assert.AreEqual(instruments.Count(), InstrumentTests.Count());
+            foreach (KeyValuePair<String, Instrument> i in instruments) {
+                Assert.AreEqual(instruments[i.Key].ID, InstrumentTests[i.Key].ID, false);
+                Assert.AreEqual(instruments[i.Key].Address, InstrumentTests[i.Key].Address, false);
+                Assert.AreEqual(instruments[i.Key].Category, InstrumentTests[i.Key].Category, false);
+                Assert.IsInstanceOfType(instruments[i.Key].Instance, typeof(Object));
                 Assert.IsInstanceOfType(InstrumentTests[i.Key].Instance, typeof(Object));
-                Assert.AreEqual(Instruments[i.Key].Manufacturer, InstrumentTests[i.Key].Manufacturer, false);
-                Assert.AreEqual(Instruments[i.Key].Model, InstrumentTests[i.Key].Model, false);
-                Console.WriteLine($"ID           : {Instruments[i.Key].ID}");
-                Console.WriteLine($"Address      : {Instruments[i.Key].Address}");
-                Console.WriteLine($"Category     : {Instruments[i.Key].Category}");
-                Console.WriteLine($"Manufacturer : {Instruments[i.Key].Manufacturer}");
-                Console.WriteLine($"Model        : {Instruments[i.Key].Model}{Environment.NewLine}");
+                Assert.AreEqual(instruments[i.Key].Manufacturer, InstrumentTests[i.Key].Manufacturer, false);
+                Assert.AreEqual(instruments[i.Key].Model, InstrumentTests[i.Key].Model, false);
+                Console.WriteLine($"ID           : {instruments[i.Key].ID}");
+                Console.WriteLine($"Address      : {instruments[i.Key].Address}");
+                Console.WriteLine($"Category     : {instruments[i.Key].Category}");
+                Console.WriteLine($"Manufacturer : {instruments[i.Key].Manufacturer}");
+                Console.WriteLine($"Model        : {instruments[i.Key].Model}{Environment.NewLine}");
             }
         }
     }

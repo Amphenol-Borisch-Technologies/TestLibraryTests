@@ -16,10 +16,10 @@ namespace ABTTestLibraryTests.Logging {
         public void StartTestTextEnabledGroupRequired() {
             DialogResult dr = MessageBox.Show($"Select Group ID1", $"Select Group ID1", MessageBoxButtons.OKCancel);
             if (dr == DialogResult.Cancel) Assert.Inconclusive();
-            Config Config = Config.Get();
-            Assert.IsTrue(Config.Group.Required);
-            Assert.IsTrue(Config.Logger.FileEnabled);
-            Assert.IsFalse(Config.Logger.SQLEnabled);
+            Config config = Config.Get();
+            Assert.IsTrue(config.Group.Required);
+            Assert.IsTrue(config.Logger.FileEnabled);
+            Assert.IsFalse(config.Logger.SQLEnabled);
             // Cannot currently test SQLEnabled case, as unimplemented.
             const String FIRST_AND_LAST_LINE_TEST_STRING = "This file & contents should be overwritten during LogTasks.Start().Confirm at end of test.";
             File.WriteAllText(LogTasks.LOGGER_FILE, FIRST_AND_LAST_LINE_TEST_STRING);
@@ -27,25 +27,25 @@ namespace ABTTestLibraryTests.Logging {
             String lastLine = File.ReadLines(LogTasks.LOGGER_FILE).Last(); // gets the last line from file.
             Assert.AreEqual(firstLine, FIRST_AND_LAST_LINE_TEST_STRING);
             Assert.AreEqual(lastLine, FIRST_AND_LAST_LINE_TEST_STRING);
-            Config.UUT.SerialNumber = "StartTestTextEnabledGroupRequired";
+            config.UUT.SerialNumber = "StartTestTextEnabledGroupRequired";
             RichTextBox rtf= new RichTextBox();
-            LogTasks.Start(Config, ref rtf);
+            LogTasks.Start(config, ref rtf);
             Log.Information($"Hello {Environment.UserName}!");
             Log.CloseAndFlush();
             Assert.IsTrue(File.Exists(LogTasks.LOGGER_FILE));
-            Config.UUT.EventCode = EventCodes.PASS;
+            config.UUT.EventCode = EventCodes.PASS;
             // If not set, is EventCodes.UNSET, which isn't allowed in class LogTasks.
 
-            String fileName = $"{Config.UUT.Number}_{Config.UUT.SerialNumber}_{Config.Group.ID}";
+            String fileName = $"{config.UUT.Number}_{config.UUT.SerialNumber}_{config.Group.ID}";
             Console.WriteLine($"FileName                : '{fileName}'");
-            String[] files = Directory.GetFiles(Config.Logger.FilePath, $"{fileName}_*.txt", SearchOption.TopDirectoryOnly);
-            // files is the set of all files in Config.Logger.FilePath like Config.UUT.Number_Config.UUT.SerialNumber_Config.Group.ID_*.txt.
+            String[] files = Directory.GetFiles(config.Logger.FilePath, $"{fileName}_*.txt", SearchOption.TopDirectoryOnly);
+            // files is the set of all files in config.Logger.FilePath like config.UUT.Number_Config.UUT.SerialNumber_Config.Group.ID_*.txt.
             Int32 maxNumber = 0; String s;
             Console.WriteLine($"Files.Count()           : '{files.Count()}'");
             foreach (String f in files) {
                 s = f;
                 Console.WriteLine($"Initial             : '{s}'");
-                s = s.Replace($"{Config.Logger.FilePath}{fileName}", String.Empty);
+                s = s.Replace($"{config.Logger.FilePath}{fileName}", String.Empty);
                 Console.WriteLine($"FilePath + fileName : '{s}'");
                 s = s.Replace(".txt", String.Empty);
                 Console.WriteLine($".txt                : '{s}'");
@@ -65,13 +65,13 @@ namespace ABTTestLibraryTests.Logging {
                 //   .TrimEnd(AFP)       : '3'
                 //   maxNumber           : '3'
             }
-            fileName += $"_{++maxNumber}_{Config.UUT.EventCode}.txt";
+            fileName += $"_{++maxNumber}_{config.UUT.EventCode}.txt";
 
-            Assert.IsFalse(File.Exists($"{Config.Logger.FilePath}{fileName}"));
-            File.Move(LogTasks.LOGGER_FILE, $"{Config.Logger.FilePath}{fileName}");
+            Assert.IsFalse(File.Exists($"{config.Logger.FilePath}{fileName}"));
+            File.Move(LogTasks.LOGGER_FILE, $"{config.Logger.FilePath}{fileName}");
             Assert.IsFalse(File.Exists(LogTasks.LOGGER_FILE));
-            Assert.IsTrue(File.Exists($"{Config.Logger.FilePath}{fileName}"));
-            lastLine = File.ReadLines($"{Config.Logger.FilePath}{fileName}").Last(); // gets the last line from a file.
+            Assert.IsTrue(File.Exists($"{config.Logger.FilePath}{fileName}"));
+            lastLine = File.ReadLines($"{config.Logger.FilePath}{fileName}").Last(); // gets the last line from a file.
             Assert.AreNotEqual(lastLine, FIRST_AND_LAST_LINE_TEST_STRING);
             Assert.IsTrue(lastLine.Contains($"Hello {Environment.UserName}!"));
         }
@@ -80,11 +80,11 @@ namespace ABTTestLibraryTests.Logging {
         public void StopTestTextEnabledGroupRequired() {
             DialogResult dr = MessageBox.Show($"Select Group ID1", $"Select Group ID1", MessageBoxButtons.OKCancel);
             if (dr == DialogResult.Cancel) Assert.Inconclusive();
-            Config Config = Config.Get();
-            Config.UUT.SerialNumber = "StopTestTextEnabledGroupRequired";
-            Assert.IsTrue(Config.Group.Required);
-            Assert.IsTrue(Config.Logger.FileEnabled);
-            Assert.IsFalse(Config.Logger.SQLEnabled);
+            Config config = Config.Get();
+            config.UUT.SerialNumber = "StopTestTextEnabledGroupRequired";
+            Assert.IsTrue(config.Group.Required);
+            Assert.IsTrue(config.Logger.FileEnabled);
+            Assert.IsFalse(config.Logger.SQLEnabled);
             // Cannot currently test SQLEnabled case, as unimplemented.
 
             if (File.Exists(LogTasks.LOGGER_FILE)) File.Delete(LogTasks.LOGGER_FILE);
@@ -93,28 +93,28 @@ namespace ABTTestLibraryTests.Logging {
                 .WriteTo.File(LogTasks.LOGGER_FILE, outputTemplate: LogTasks.LOGGER_TEMPLATE, fileSizeLimitBytes: null, retainedFileCountLimit: null)
                 .CreateLogger();
             Log.Information($"START                  : {DateTime.Now}");
-            Log.Information($"UUT Customer           : {Config.UUT.Customer}");
-            Log.Information($"UUT Test Specification : {Config.UUT.TestSpecification}");
-            Log.Information($"UUT Description        : {Config.UUT.Description}");
-            Log.Information($"UUT Type               : {Config.UUT.Type}");
-            Log.Information($"UUT Number             : {Config.UUT.Number}");
-            Log.Information($"UUT Revision           : {Config.UUT.Revision}");
-            Log.Information($"UUT Serial Number      : {Config.UUT.SerialNumber}");
-            Log.Information($"UUT Group ID           : {Config.Group.ID}");
-            Log.Information($"UUT Group Summary      : {Config.Group.Summary}");
-            Log.Information($"UUT Group Detail       \n{Config.Group.Detail}");
+            Log.Information($"UUT Customer           : {config.UUT.Customer}");
+            Log.Information($"UUT Test Specification : {config.UUT.TestSpecification}");
+            Log.Information($"UUT Description        : {config.UUT.Description}");
+            Log.Information($"UUT Type               : {config.UUT.Type}");
+            Log.Information($"UUT Number             : {config.UUT.Number}");
+            Log.Information($"UUT Revision           : {config.UUT.Revision}");
+            Log.Information($"UUT Serial Number      : {config.UUT.SerialNumber}");
+            Log.Information($"UUT Group ID           : {config.Group.ID}");
+            Log.Information($"UUT Group Summary      : {config.Group.Summary}");
+            Log.Information($"UUT Group Detail       \n{config.Group.Detail}");
             Log.Information($"Environment.UserName   : {Environment.UserName}\n");
             Log.Information($"Hello {Environment.UserName}!");
             Assert.IsTrue(File.Exists(LogTasks.LOGGER_FILE));
-            Config.UUT.EventCode = EventCodes.PASS;
+            config.UUT.EventCode = EventCodes.PASS;
             // If not set, is EventCodes.UNSET, which isn't allowed in class LogTasks.
 
-            LogTasks.Stop(Config);
+            LogTasks.Stop(config);
             Assert.IsFalse(File.Exists(LogTasks.LOGGER_FILE));
-            var directory = new DirectoryInfo(Config.Logger.FilePath);
+            var directory = new DirectoryInfo(config.Logger.FilePath);
             var newestFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
-            Assert.IsTrue(File.Exists($"{Config.Logger.FilePath}{newestFile}"));
-            String lastLine = File.ReadLines($"{Config.Logger.FilePath}{newestFile}").Last(); // gets the last line from a file.
+            Assert.IsTrue(File.Exists($"{config.Logger.FilePath}{newestFile}"));
+            String lastLine = File.ReadLines($"{config.Logger.FilePath}{newestFile}").Last(); // gets the last line from a file.
             Assert.IsTrue(lastLine.Contains("STOP"));
         }
     }

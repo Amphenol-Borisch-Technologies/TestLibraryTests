@@ -80,7 +80,8 @@ namespace ABTTestLibraryTests.AppConfig {
                 // Assert.AreEqual(Tests[t.Key].LimitLow, $"LimitLow{i}", false);
                 // Assert.AreEqual(Tests[t.Key].LimitHigh, $"LimitHigh{i}", false);
                 // LimitLow & LimitHigh are tested in class TestSupportTests, method EvaluateTestResultTest
-                Assert.AreEqual(t.Value.Units, $"Units{i}", false);
+                if (t.Key == "ID9") Assert.AreEqual(t.Value.Units, $"N/A", false);
+                else Assert.AreEqual(t.Value.Units, $"Units{i}", false);
                 Assert.AreEqual(t.Value.Result, EventCodes.UNSET, false);
                 i++;
             }
@@ -100,14 +101,14 @@ namespace ABTTestLibraryTests.AppConfig {
 
         [TestMethod()]
         public void ConfigGetTest() {
-            Config Config = Config.Get();
-            Assert.IsInstanceOfType(Config.App, typeof(App));
-            Assert.IsInstanceOfType(Config.Logger, typeof(Logger));
-            Assert.IsInstanceOfType(Config.UUT, typeof(UUT));
-            Assert.IsInstanceOfType(Config.Group, typeof(Group));
-            Assert.IsInstanceOfType(Config.Tests, typeof(Dictionary<String, Test>));
-            Console.WriteLine($"Config.Group.ID='{Config.Group.ID}'");
-            foreach (KeyValuePair<String, Test> t in Config.Tests) Console.WriteLine($"ID='{t.Value.ID}', Summary='{t.Value.Summary}', Detail='{t.Value.Detail}'");
+            Config config = Config.Get();
+            Assert.IsInstanceOfType(config.App, typeof(App));
+            Assert.IsInstanceOfType(config.Logger, typeof(Logger));
+            Assert.IsInstanceOfType(config.UUT, typeof(UUT));
+            Assert.IsInstanceOfType(config.Group, typeof(Group));
+            Assert.IsInstanceOfType(config.Tests, typeof(Dictionary<String, Test>));
+            Console.WriteLine($"config.Group.ID='{config.Group.ID}'");
+            foreach (KeyValuePair<String, Test> t in config.Tests) Console.WriteLine($"ID='{t.Value.ID}', Summary='{t.Value.Summary}', Detail='{t.Value.Detail}'");
         }
     }
 }
