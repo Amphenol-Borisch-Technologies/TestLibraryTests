@@ -70,10 +70,10 @@ namespace ABTTestLibraryTests.AppConfig {
             TestSubTest(Test.Get());
         }
 
-        private void TestSubTest(Dictionary<String, Test> Tests) {
-            Assert.AreEqual(Tests.Count, 10);
+        private void TestSubTest(Dictionary<String, Test> tests) {
+            Assert.AreEqual(tests.Count, 10);
             Int32 i = 0;
-            foreach (KeyValuePair<String, Test> t in Tests) {
+            foreach (KeyValuePair<String, Test> t in tests) {
                 Assert.AreEqual(t.Value.ID, $"ID{i}", false);
                 Assert.AreEqual(t.Value.Summary, $"Summary{i}", false);
                 Assert.AreEqual(t.Value.Detail, $"Detail{i}", false);

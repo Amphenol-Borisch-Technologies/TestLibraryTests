@@ -26,170 +26,170 @@ namespace ABTTestLibraryTests.TestSupport {
         [TestMethod()]
         public void EvaluateTestResultTest() {
             String eventCode = String.Empty;
-            Dictionary<String, Test> Tests = Test.Get();
-            Assert.AreEqual(Tests.Count, 10);
-            foreach (KeyValuePair<String, Test> t in Tests) Assert.AreEqual(t.Value.Result, EventCodes.UNSET, false);
+            Dictionary<String, Test> tests = Test.Get();
+            Assert.AreEqual(tests.Count, 10);
+            foreach (KeyValuePair<String, Test> t in tests) Assert.AreEqual(t.Value.Result, EventCodes.UNSET, false);
             String ID;
             Exception e;
 
             //   - LimitLow = LimitHigh = String.Empty.
             ID = "ID0";
-            Assert.AreEqual(Tests[ID].LimitLow, String.Empty, false);
-            Assert.AreEqual(Tests[ID].LimitHigh, String.Empty, false);
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(Tests[ID], out eventCode));
+            Assert.AreEqual(tests[ID].LimitLow, String.Empty, false);
+            Assert.AreEqual(tests[ID].LimitHigh, String.Empty, false);
+            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID], out eventCode));
             Assert.AreEqual(e.Message, $"Invalid limits; App.config TestElement ID '{ID}' has LimitLow = String.Empty && LimitHigh = String.Empty");
             Console.WriteLine(e.Message);
             Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow = String.Empty,	LimitHigh ≠ String.Empty, but won't parse to Double
             ID = "ID1";
-            Assert.AreEqual(Tests[ID].LimitLow, String.Empty, false);
-            Assert.AreNotEqual(Tests[ID].LimitHigh, String.Empty, false);
-            Assert.IsFalse(Double.TryParse(Tests[ID].LimitHigh, out _));
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(Tests[ID], out eventCode));
+            Assert.AreEqual(tests[ID].LimitLow, String.Empty, false);
+            Assert.AreNotEqual(tests[ID].LimitHigh, String.Empty, false);
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitHigh, out _));
+            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID], out eventCode));
             Assert.AreEqual(e.Message, ($"Invalid limits; App.config TestElement ID '{ID}' has LimitLow = String.Empty && LimitHigh ≠ String.Empty && LimitHigh ≠ System.Double"));
             Console.WriteLine(e.Message);
             Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitHigh = String.Empty, LimitLow  ≠ String.Empty, but won't parse to Double.
             ID = "ID2";
-            Assert.AreEqual(Tests[ID].LimitHigh, String.Empty, false);
-            Assert.AreNotEqual(Tests[ID].LimitLow, String.Empty, false);
-            Assert.IsFalse(Double.TryParse(Tests[ID].LimitLow, out _));
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(Tests[ID], out eventCode));
+            Assert.AreEqual(tests[ID].LimitHigh, String.Empty, false);
+            Assert.AreNotEqual(tests[ID].LimitLow, String.Empty, false);
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitLow, out _));
+            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID], out eventCode));
             Assert.AreEqual(e.Message, $"Invalid limits; App.config TestElement ID '{ID}' has LimitHigh = String.Empty && LimitLow ≠ String.Empty && LimitLow ≠ System.Double");
             Console.WriteLine(e.Message);
             Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow ≠ String.Empty,	LimitHigh ≠ String.Empty, neither parse to Double, & LimitLow ≠ LimitHigh.
             ID = "ID3";
-            Assert.AreNotEqual(Tests[ID].LimitLow, String.Empty, false);
-            Assert.AreNotEqual(Tests[ID].LimitHigh, String.Empty, false);
-            Assert.IsFalse(Double.TryParse(Tests[ID].LimitLow, out _));
-            Assert.IsFalse(Double.TryParse(Tests[ID].LimitHigh, out _));
-            Assert.AreNotEqual(Tests[ID].LimitLow, Tests[ID].LimitHigh, false);
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(Tests[ID], out eventCode));
+            Assert.AreNotEqual(tests[ID].LimitLow, String.Empty, false);
+            Assert.AreNotEqual(tests[ID].LimitHigh, String.Empty, false);
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitLow, out _));
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitHigh, out _));
+            Assert.AreNotEqual(tests[ID].LimitLow, tests[ID].LimitHigh, false);
+            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID], out eventCode));
             Assert.AreEqual(e.Message, $"Invalid limits; App.config TestElement ID '{ID}' has LimitLow ≠ LimitHigh && LimitLow ≠ String.Empty && LimitHigh ≠ String.Empty && LimitLow ≠ System.Double && LimitHigh ≠ System.Double");
             Console.WriteLine(e.Message);
             Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow & LimitHigh both parse to Doubles; both low & high limits.
             ID = "ID4";
-            Assert.AreEqual(Tests[ID].LimitLow, "0", false);
-            Assert.AreEqual(Tests[ID].LimitHigh, "1", false);
-            Assert.IsTrue(Double.TryParse(Tests[ID].LimitLow, out _));
-            Assert.IsTrue(Double.TryParse(Tests[ID].LimitHigh, out _));
-            Tests[ID].Measurement = "-0.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            Assert.AreEqual(tests[ID].LimitLow, "0", false);
+            Assert.AreEqual(tests[ID].LimitHigh, "1", false);
+            Assert.IsTrue(Double.TryParse(tests[ID].LimitLow, out _));
+            Assert.IsTrue(Double.TryParse(tests[ID].LimitHigh, out _));
+            tests[ID].Measurement = "-0.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
-            Tests[ID].Measurement = Tests[ID].LimitLow;
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = tests[ID].LimitLow;
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = "0.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = "0.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = Tests[ID].LimitHigh;
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = tests[ID].LimitHigh;
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = "1.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = "1.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
-            Tests[ID].Measurement = "Measurement";
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(Tests[ID], out eventCode));
-            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{Tests[ID].Measurement}' ≠ System.Double");
+            tests[ID].Measurement = "Measurement";
+            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID], out eventCode));
+            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double");
             Console.WriteLine(e.Message);
             Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow is allowed to be > LimitHigh if both parse to Double.
             //     This simply excludes a range of measurements from passing, rather than including a range from passing.
             ID = "ID5";
-            Assert.AreEqual(Tests[ID].LimitLow, "1", false);
-            Assert.AreEqual(Tests[ID].LimitHigh, "0", false);
-            Assert.IsTrue(Double.TryParse(Tests[ID].LimitLow, out _));
-            Assert.IsTrue(Double.TryParse(Tests[ID].LimitHigh, out _));
-            Tests[ID].Measurement = "-0.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            Assert.AreEqual(tests[ID].LimitLow, "1", false);
+            Assert.AreEqual(tests[ID].LimitHigh, "0", false);
+            Assert.IsTrue(Double.TryParse(tests[ID].LimitLow, out _));
+            Assert.IsTrue(Double.TryParse(tests[ID].LimitHigh, out _));
+            tests[ID].Measurement = "-0.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = Tests[ID].LimitLow;
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = tests[ID].LimitLow;
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = "0.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = "0.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
-            Tests[ID].Measurement = Tests[ID].LimitHigh;
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = tests[ID].LimitHigh;
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = "1.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = "1.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
 
             //   - LimitLow is allowed to be = LimitHigh if both parse to Double.
             ID = "ID6";
-            Assert.AreEqual(Tests[ID].LimitLow, "1", false);
-            Assert.AreEqual(Tests[ID].LimitHigh, "1", false);
-            Assert.IsTrue(Double.TryParse(Tests[ID].LimitLow, out _));
-            Assert.IsTrue(Double.TryParse(Tests[ID].LimitHigh, out _));
-            Tests[ID].Measurement = "0.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            Assert.AreEqual(tests[ID].LimitLow, "1", false);
+            Assert.AreEqual(tests[ID].LimitHigh, "1", false);
+            Assert.IsTrue(Double.TryParse(tests[ID].LimitLow, out _));
+            Assert.IsTrue(Double.TryParse(tests[ID].LimitHigh, out _));
+            tests[ID].Measurement = "0.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
-            Tests[ID].Measurement = Tests[ID].LimitLow;
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = tests[ID].LimitLow;
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
 
             //   - LimitLow parses to Double, LimitHigh = String.Empty; only low limit, no high.
             ID = "ID7";
-            Assert.AreEqual(Tests[ID].LimitLow, "0", false);
-            Assert.AreEqual(Tests[ID].LimitHigh, String.Empty, false);
-            Assert.IsTrue(Double.TryParse(Tests[ID].LimitLow, out _));
-            Assert.IsFalse(Double.TryParse(Tests[ID].LimitHigh, out _));
-            Tests[ID].Measurement = "-0.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            Assert.AreEqual(tests[ID].LimitLow, "0", false);
+            Assert.AreEqual(tests[ID].LimitHigh, String.Empty, false);
+            Assert.IsTrue(Double.TryParse(tests[ID].LimitLow, out _));
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitHigh, out _));
+            tests[ID].Measurement = "-0.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
-            Tests[ID].Measurement = Tests[ID].LimitLow;
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = tests[ID].LimitLow;
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = "0.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = "0.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = "Measurement";
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(Tests[ID], out eventCode));
-            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{Tests[ID].Measurement}' ≠ System.Double");
+            tests[ID].Measurement = "Measurement";
+            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID], out eventCode));
+            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double");
             Console.WriteLine(e.Message);
             Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow = String.Empty, LimitHigh parses to Double; no low limit, only high.
             ID = "ID8";
-            Assert.AreEqual(Tests[ID].LimitLow, String.Empty, false);
-            Assert.AreEqual(Tests[ID].LimitHigh, "1", false);
-            Assert.IsFalse(Double.TryParse(Tests[ID].LimitLow, out _));
-            Assert.IsTrue(Double.TryParse(Tests[ID].LimitHigh, out _));
-            Tests[ID].Measurement = "0.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            Assert.AreEqual(tests[ID].LimitLow, String.Empty, false);
+            Assert.AreEqual(tests[ID].LimitHigh, "1", false);
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitLow, out _));
+            Assert.IsTrue(Double.TryParse(tests[ID].LimitHigh, out _));
+            tests[ID].Measurement = "0.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = Tests[ID].LimitHigh;
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = tests[ID].LimitHigh;
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = "1.5";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = "1.5";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
-            Tests[ID].Measurement = "Measurement";
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(Tests[ID], out eventCode));
-            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{Tests[ID].Measurement}' ≠ System.Double");
+            tests[ID].Measurement = "Measurement";
+            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID], out eventCode));
+            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double");
             Console.WriteLine(e.Message);
             Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow = LimitHigh, both ≠ String.Empty, and neither parse to Double.
             //     This is to verify checksums or CRCs, or to read String contents from memory, or from a file, etc.
             ID = "ID9";
-            Assert.AreEqual(Tests[ID].LimitLow, "Limit", false);
-            Assert.AreEqual(Tests[ID].LimitHigh, "Limit", false);
-            Assert.IsFalse(Double.TryParse(Tests[ID].LimitLow, out _));
-            Assert.IsFalse(Double.TryParse(Tests[ID].LimitHigh, out _));
-            Tests[ID].Measurement = Tests[ID].LimitLow;
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            Assert.AreEqual(tests[ID].LimitLow, "Limit", false);
+            Assert.AreEqual(tests[ID].LimitHigh, "Limit", false);
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitLow, out _));
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitHigh, out _));
+            tests[ID].Measurement = tests[ID].LimitLow;
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.PASS);
-            Tests[ID].Measurement = "1";
-            TestTasks.EvaluateTestResult(Tests[ID], out eventCode);
+            tests[ID].Measurement = "1";
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
         }
 
