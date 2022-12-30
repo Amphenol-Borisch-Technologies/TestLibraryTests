@@ -26,7 +26,7 @@ namespace ABTTestLibraryTests.AppConfig {
 
         private void LoggerSubTest(Logger logger) {
             Assert.IsTrue(logger.FileEnabled);
-            Assert.AreEqual(logger.FilePath, @"P:\Test\TDR\D4522137\Functional\", false);
+            Assert.AreEqual(logger.FilePath, "LOGGER_FilePath", false);
             Assert.AreEqual(logger.SQLConnectionString, String.Empty);
             Assert.IsFalse(logger.SQLEnabled);
         }
@@ -82,6 +82,7 @@ namespace ABTTestLibraryTests.AppConfig {
                 // LimitLow & LimitHigh are tested in class TestSupportTests, method EvaluateTestResultTest
                 if (t.Key == "ID9") Assert.AreEqual(t.Value.Units, $"N/A", false);
                 else Assert.AreEqual(t.Value.Units, $"Units{i}", false);
+                Assert.AreEqual(t.Value.UnitType, $"UnitType{i}", false);
                 Assert.AreEqual(t.Value.Result, EventCodes.UNSET, false);
                 i++;
             }
