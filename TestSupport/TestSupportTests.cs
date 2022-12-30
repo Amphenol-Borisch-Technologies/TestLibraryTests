@@ -191,6 +191,25 @@ namespace ABTTestLibraryTests.TestSupport {
             tests[ID].Measurement = "1";
             TestTasks.EvaluateTestResult(tests[ID], out eventCode);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
+
+            //   - LimitLow = LimitHigh = CUSTOM.
+            //     For custom Tests.
+            ID = "ID10";
+            Assert.AreEqual(tests[ID].LimitLow, "CUSTOM", false);
+            Assert.AreEqual(tests[ID].LimitHigh, "CUSTOM", false);
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitLow, out _));
+            Assert.IsFalse(Double.TryParse(tests[ID].LimitHigh, out _));
+            foreach (FieldInfo fi in typeof(EventCodes).GetFields()) {
+                tests[ID].Measurement = (String)fi.GetValue(null);
+                TestTasks.EvaluateTestResult(tests[ID], out eventCode);
+                Assert.AreEqual(eventCode, fi.GetValue(null));
+            }
+            tests[ID].Measurement = "This Measurement should cause an Exception.";
+            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID], out eventCode));
+            Assert.AreEqual(e.Message, $"Invalid CUSTOM measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' didn't return valid EventCode.");
+            TestTasks.EvaluateTestResult(tests[ID], out eventCode);
+            Console.WriteLine(e.Message);
+            Assert.AreEqual(eventCode, EventCodes.ERROR);
         }
 
         [TestMethod()]
