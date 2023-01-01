@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using ABTTestLibrary.Instruments;
-// NOTE: The quality of these MSTest unit tests vary, and some can certainly be improved.
 
+// NOTE: The quality of these MSTest unit tests vary, and some can certainly be improved.
 namespace ABTTestLibraryTests.Instruments {
     [TestClass()]
     public class InstrumentTests {
