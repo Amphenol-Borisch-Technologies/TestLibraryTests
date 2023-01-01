@@ -1,4 +1,4 @@
-﻿using ABTTestLibrary.AppConfig;
+﻿using ABTTestLibrary.Config;
 using ABTTestLibrary.Instruments;
 using Agilent.CommandExpert.ScpiNet.AgSCPI99_1_0;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

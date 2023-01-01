@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using ABTTestLibrary.AppConfig;
+using ABTTestLibrary.Config;
 using ABTTestLibrary.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
@@ -208,86 +208,86 @@ namespace ABTTestLibraryTests.TestSupport {
         public void EvaluateUUTResultTest() {
             DialogResult dr = MessageBox.Show($"Select Group ID0", $"Select Group ID0", MessageBoxButtons.OKCancel);
             if (dr == DialogResult.Cancel) Assert.Inconclusive();
-            Config config = Config.Get();
-            foreach (KeyValuePair<String, Test> t in config.Tests) t.Value.Result = EventCodes.PASS;
-            Assert.IsFalse(config.Group.Required);
-            Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.UNSET);
+            ConfigTest configTest = ConfigTest.Get();
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.PASS;
+            Assert.IsFalse(configTest.Group.Required);
+            Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.UNSET);
 
             dr = MessageBox.Show($"Select Group ID1", $"Select Group ID1", MessageBoxButtons.OKCancel);
             if (dr == DialogResult.Cancel) Assert.Inconclusive();
-            config = Config.Get();
-            Assert.IsTrue(config.Group.Required);
-            foreach (KeyValuePair<String, Test> t in config.Tests) Assert.AreEqual(t.Value.Result, EventCodes.UNSET);
+            configTest = ConfigTest.Get();
+            Assert.IsTrue(configTest.Group.Required);
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) Assert.AreEqual(t.Value.Result, EventCodes.UNSET);
           
-            foreach (KeyValuePair<String, Test> t in config.Tests) t.Value.Result = EventCodes.ERROR;
-            Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
-            foreach (KeyValuePair<String, Test> t in config.Tests) {
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.ERROR;
+            Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) {
                 // If any result is ERROR, always evaluate to ERROR.
                 t.Value.Result = EventCodes.UNSET;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.ABORT;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.FAIL;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.PASS;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.ERROR;
             }
 
-            foreach (KeyValuePair<String, Test> t in config.Tests) t.Value.Result = EventCodes.UNSET;
-            Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
-            foreach (KeyValuePair<String, Test> t in config.Tests) {
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.UNSET;
+            Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) {
                 // In the absence of ERROR, any result = UNSET evaluates to ERROR.
                 t.Value.Result = EventCodes.FAIL;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.PASS;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.ABORT;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ABORT);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
                 t.Value.Result = EventCodes.UNSET;
             }
 
-            foreach (KeyValuePair<String, Test> t in config.Tests) t.Value.Result = EventCodes.ABORT;
-            Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ABORT);
-            foreach (KeyValuePair<String, Test> t in config.Tests) {
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.ABORT;
+            Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) {
                 // In the absence of ERROR & UNSET, any result = ABORT evaluates to ABORT.
                 t.Value.Result = EventCodes.FAIL;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ABORT);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
                 t.Value.Result = EventCodes.PASS;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ABORT);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
                 t.Value.Result = EventCodes.ABORT;
             }
 
-            foreach (KeyValuePair<String, Test> t in config.Tests) t.Value.Result = EventCodes.FAIL;
-            Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.FAIL);
-            foreach (KeyValuePair<String, Test> t in config.Tests) {
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.FAIL;
+            Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.FAIL);
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) {
                 // In the absence of ERROR, UNSET and ABORT, any result = FAIL evaluates to FAIL.
                 t.Value.Result = EventCodes.PASS;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.FAIL);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.FAIL);
                 t.Value.Result = EventCodes.FAIL;
             }
 
-            foreach (KeyValuePair<String, Test> t in config.Tests) t.Value.Result = EventCodes.PASS;
-            Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.PASS);
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.PASS;
+            Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.PASS);
             // All Test.Result values must be EventCode.PASS for EvaluateUUTResult() to return EventCode.PASS.
-            foreach (KeyValuePair<String, Test> t in config.Tests) {
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) {
                 t.Value.Result = EventCodes.ERROR;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.UNSET;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ERROR);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.ABORT;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.ABORT);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
                 t.Value.Result = EventCodes.FAIL;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.FAIL);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.FAIL);
                 t.Value.Result = EventCodes.PASS;
             }
 
-            foreach (KeyValuePair<String, Test> t in config.Tests) t.Value.Result = EventCodes.PASS;
-            foreach (KeyValuePair<String, Test> t in config.Tests) {
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.PASS;
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) {
                 t.Value.Result = "This result should throw an Exception";
-                Assert.ThrowsException<Exception>(() => TestTasks.EvaluateUUTResult(config));
+                Assert.ThrowsException<Exception>(() => TestTasks.EvaluateUUTResult(configTest));
                 t.Value.Result = EventCodes.PASS;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(config), EventCodes.PASS);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.PASS);
             }
         }
     }

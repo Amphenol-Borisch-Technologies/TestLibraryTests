@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ABTTestLibrary.AppConfig;
+using ABTTestLibrary.Config;
 using ABTTestLibrary.TestSupport;
 // Also indirectly tests App.config & Config.cs.
 
@@ -101,15 +101,20 @@ namespace ABTTestLibraryTests.AppConfig {
         }
 
         [TestMethod()]
-        public void ConfigGetTest() {
-            Config config = Config.Get();
-            Assert.IsInstanceOfType(config.App, typeof(App));
-            Assert.IsInstanceOfType(config.Logger, typeof(Logger));
-            Assert.IsInstanceOfType(config.UUT, typeof(UUT));
-            Assert.IsInstanceOfType(config.Group, typeof(Group));
-            Assert.IsInstanceOfType(config.Tests, typeof(Dictionary<String, Test>));
-            Console.WriteLine($"config.Group.ID='{config.Group.ID}'");
-            foreach (KeyValuePair<String, Test> t in config.Tests) Console.WriteLine($"ID='{t.Value.ID}', Summary='{t.Value.Summary}', Detail='{t.Value.Detail}'");
+        public void ConfigLibGetTest() {
+            ConfigLib configLib = ConfigLib.Get();
+            Assert.IsInstanceOfType(configLib.App, typeof(App));
+            Assert.IsInstanceOfType(configLib.Logger, typeof(Logger));
+            Assert.IsInstanceOfType(configLib.UUT, typeof(UUT));
+        }
+
+        [TestMethod()]
+        public void ConfigTestGetTest() {
+            ConfigTest configTest = ConfigTest.Get();
+            Assert.IsInstanceOfType(configTest.Group, typeof(Group));
+            Assert.IsInstanceOfType(configTest.Tests, typeof(Dictionary<String, Test>));
+            Console.WriteLine($"config.Group.ID='{configTest.Group.ID}'");
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) Console.WriteLine($"ID='{t.Value.ID}', Summary='{t.Value.Summary}', Detail='{t.Value.Detail}'");
         }
     }
 }
