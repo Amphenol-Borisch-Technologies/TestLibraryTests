@@ -5,6 +5,7 @@ using ABTTestLibrary.AppConfig;
 using ABTTestLibrary.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ABTTestLibraryTests.TestSupport {
     [TestClass()]
@@ -27,7 +28,7 @@ namespace ABTTestLibraryTests.TestSupport {
         public void EvaluateTestResultTest() {
             String eventCode = String.Empty;
             Dictionary<String, Test> tests = Test.Get();
-            Assert.AreEqual(tests.Count, 10);
+            Assert.AreEqual(tests.Count, 11);
             foreach (KeyValuePair<String, Test> t in tests) Assert.AreEqual(t.Value.Result, EventCodes.UNSET, false);
             String ID;
             Exception e;
@@ -36,30 +37,27 @@ namespace ABTTestLibraryTests.TestSupport {
             ID = "ID0";
             Assert.AreEqual(tests[ID].LimitLow, String.Empty, false);
             Assert.AreEqual(tests[ID].LimitHigh, String.Empty, false);
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID]));
-            Assert.AreEqual(e.Message, $"Invalid limits; App.config TestElement ID '{ID}' has LimitLow = String.Empty && LimitHigh = String.Empty");
+            e = Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateTestResult(tests[ID]));
+            Assert.AreEqual(e.Message, $"Invalid limits; App.config TestElement ID '{ID}' has LimitLow = LimitHigh = String.Empty.");
             Console.WriteLine(e.Message);
-            Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow = String.Empty,	LimitHigh ≠ String.Empty, but won't parse to Double
             ID = "ID1";
             Assert.AreEqual(tests[ID].LimitLow, String.Empty, false);
             Assert.AreNotEqual(tests[ID].LimitHigh, String.Empty, false);
             Assert.IsFalse(Double.TryParse(tests[ID].LimitHigh, out _));
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID]));
-            Assert.AreEqual(e.Message, ($"Invalid limits; App.config TestElement ID '{ID}' has LimitLow = String.Empty && LimitHigh ≠ String.Empty && LimitHigh ≠ System.Double"));
+            e = Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateTestResult(tests[ID]));
+            Assert.AreEqual(e.Message, ($"Invalid Limit; App.config TestElement ID '{ID}' LimitHigh '{tests[ID].LimitHigh}' ≠ System.Double."));
             Console.WriteLine(e.Message);
-            Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitHigh = String.Empty, LimitLow  ≠ String.Empty, but won't parse to Double.
             ID = "ID2";
             Assert.AreEqual(tests[ID].LimitHigh, String.Empty, false);
             Assert.AreNotEqual(tests[ID].LimitLow, String.Empty, false);
             Assert.IsFalse(Double.TryParse(tests[ID].LimitLow, out _));
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID]));
-            Assert.AreEqual(e.Message, $"Invalid limits; App.config TestElement ID '{ID}' has LimitHigh = String.Empty && LimitLow ≠ String.Empty && LimitLow ≠ System.Double");
+            e = Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateTestResult(tests[ID]));
+            Assert.AreEqual(e.Message, $"Invalid Limit; App.config TestElement ID '{ID}' LimitLow '{tests[ID].LimitLow}' ≠ System.Double.");
             Console.WriteLine(e.Message);
-            Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow ≠ String.Empty,	LimitHigh ≠ String.Empty, neither parse to Double, & LimitLow ≠ LimitHigh.
             ID = "ID3";
@@ -68,10 +66,9 @@ namespace ABTTestLibraryTests.TestSupport {
             Assert.IsFalse(Double.TryParse(tests[ID].LimitLow, out _));
             Assert.IsFalse(Double.TryParse(tests[ID].LimitHigh, out _));
             Assert.AreNotEqual(tests[ID].LimitLow, tests[ID].LimitHigh, false);
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID]));
-            Assert.AreEqual(e.Message, $"Invalid limits; App.config TestElement ID '{ID}' has LimitLow ≠ LimitHigh && LimitLow ≠ String.Empty && LimitHigh ≠ String.Empty && LimitLow ≠ System.Double && LimitHigh ≠ System.Double");
+            e = Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateTestResult(tests[ID]));
+            Assert.AreEqual(e.Message, $"Invalid Limits; App.config TestElement ID '{ID}' LimitLow '{tests[ID].LimitLow}' ≠ LimitHigh '{tests[ID].LimitHigh}'.");
             Console.WriteLine(e.Message);
-            Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow & LimitHigh both parse to Doubles; both low & high limits.
             ID = "ID4";
@@ -95,10 +92,9 @@ namespace ABTTestLibraryTests.TestSupport {
             eventCode = TestTasks.EvaluateTestResult(tests[ID]);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
             tests[ID].Measurement = "Measurement";
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID]));
-            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double");
+            e = Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateTestResult(tests[ID]));
+            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double.");
             Console.WriteLine(e.Message);
-            Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow is allowed to be > LimitHigh if both parse to Double.
             //     This simply excludes a range of measurements from passing, rather than including a range from passing.
@@ -152,10 +148,9 @@ namespace ABTTestLibraryTests.TestSupport {
             eventCode = TestTasks.EvaluateTestResult(tests[ID]);
             Assert.AreEqual(eventCode, EventCodes.PASS);
             tests[ID].Measurement = "Measurement";
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID]));
-            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double");
+            e = Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateTestResult(tests[ID]));
+            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double.");
             Console.WriteLine(e.Message);
-            Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow = String.Empty, LimitHigh parses to Double; no low limit, only high.
             ID = "ID8";
@@ -173,10 +168,9 @@ namespace ABTTestLibraryTests.TestSupport {
             eventCode = TestTasks.EvaluateTestResult(tests[ID]);
             Assert.AreEqual(eventCode, EventCodes.FAIL);
             tests[ID].Measurement = "Measurement";
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID]));
-            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double");
+            e = Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateTestResult(tests[ID]));
+            Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double.");
             Console.WriteLine(e.Message);
-            Assert.AreEqual(eventCode, EventCodes.ERROR, false);
 
             //   - LimitLow = LimitHigh, both ≠ String.Empty, and neither parse to Double.
             //     This is to verify checksums or CRCs, or to read String contents from memory, or from a file, etc.
@@ -205,11 +199,9 @@ namespace ABTTestLibraryTests.TestSupport {
                 Assert.AreEqual(eventCode, fi.GetValue(null));
             }
             tests[ID].Measurement = "This Measurement should cause an Exception.";
-            e = Assert.ThrowsException<Exception>(() => TestTasks.EvaluateTestResult(tests[ID]));
+            e = Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateTestResult(tests[ID]));
             Assert.AreEqual(e.Message, $"Invalid CUSTOM measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' didn't return valid EventCode.");
-            eventCode = TestTasks.EvaluateTestResult(tests[ID]);
             Console.WriteLine(e.Message);
-            Assert.AreEqual(eventCode, EventCodes.ERROR);
         }
 
         [TestMethod()]
