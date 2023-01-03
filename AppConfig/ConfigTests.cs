@@ -16,7 +16,7 @@ namespace ABTTestLibraryTests.AppConfig {
 
         private void LoggerSubTest(Logger logger) {
             Assert.IsTrue(logger.FileEnabled);
-            Assert.AreEqual(logger.FilePath, "LOGGER_FilePath", false);
+            Assert.AreEqual(logger.FilePath, "ABTTestLibraryLog.txt", false);
             Assert.AreEqual(logger.SQLConnectionString, String.Empty);
             Assert.IsFalse(logger.SQLEnabled);
         }
@@ -52,7 +52,9 @@ namespace ABTTestLibraryTests.AppConfig {
                 Assert.AreEqual(g.Value.Revision, $"Revision{i}", false);
                 Assert.AreEqual(g.Value.Summary, $"Summary{i}", false);
                 Assert.AreEqual(g.Value.Detail, $"Detail{i}", false);
-                Assert.AreEqual(g.Value.TestIDs, $"TestIDs{i}", false);
+                if (i == 0) Assert.AreEqual(g.Value.TestIDs, "ID0", false);
+                if (i == 1) Assert.AreEqual(g.Value.TestIDs, "ID0|ID1", false);
+                if (i == 2) Assert.AreEqual(g.Value.TestIDs, "ID0|ID1|ID2", false);
                 i++;
             }
         }
@@ -63,7 +65,7 @@ namespace ABTTestLibraryTests.AppConfig {
         }
 
         private void TestSubTest(Dictionary<String, Test> tests) {
-            Assert.AreEqual(tests.Count, 10);
+            Assert.AreEqual(tests.Count, 11);
             Int32 i = 0;
             foreach (KeyValuePair<String, Test> t in tests) {
                 Assert.AreEqual(t.Value.ID, $"ID{i}", false);

@@ -235,13 +235,13 @@ namespace ABTTestLibraryTests.TestSupport {
             }
 
             foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.UNSET;
-            Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
+            Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateUUTResult(configTest));
             foreach (KeyValuePair<String, Test> t in configTest.Tests) {
-                // In the absence of ERROR, any result = UNSET evaluates to ERROR.
+                // In the absence of ERROR & ABORT, any result = UNSET throws exception.
                 t.Value.Result = EventCodes.FAIL;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
+                Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateUUTResult(configTest));
                 t.Value.Result = EventCodes.PASS;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
+                Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateUUTResult(configTest));
                 t.Value.Result = EventCodes.ABORT;
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
                 t.Value.Result = EventCodes.UNSET;
@@ -274,7 +274,7 @@ namespace ABTTestLibraryTests.TestSupport {
                 t.Value.Result = EventCodes.ERROR;
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.UNSET;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
+                Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateUUTResult(configTest));
                 t.Value.Result = EventCodes.ABORT;
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
                 t.Value.Result = EventCodes.FAIL;
@@ -285,7 +285,7 @@ namespace ABTTestLibraryTests.TestSupport {
             foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.PASS;
             foreach (KeyValuePair<String, Test> t in configTest.Tests) {
                 t.Value.Result = "This result should throw an Exception";
-                Assert.ThrowsException<Exception>(() => TestTasks.EvaluateUUTResult(configTest));
+                Assert.ThrowsException<NotImplementedException>(() => TestTasks.EvaluateUUTResult(configTest));
                 t.Value.Result = EventCodes.PASS;
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.PASS);
             }
