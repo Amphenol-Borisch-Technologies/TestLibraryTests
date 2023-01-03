@@ -10,16 +10,6 @@ namespace ABTTestLibraryTests.AppConfig {
     [TestClass()]
     public class ConfigTests {
         [TestMethod()]
-        public void AppGetTest() {
-            AppSubTest(App.Get());
-        }
-
-        private void AppSubTest(App app) {
-            Assert.AreEqual(app.Revision, "1.0", false);
-            Assert.IsTrue(app.TestEventsEnabled);
-        }
-
-        [TestMethod()]
         public void LoggerGetTest() {
             LoggerSubTest(Logger.Get());
         }
@@ -103,7 +93,6 @@ namespace ABTTestLibraryTests.AppConfig {
         [TestMethod()]
         public void ConfigLibGetTest() {
             ConfigLib configLib = ConfigLib.Get();
-            Assert.IsInstanceOfType(configLib.App, typeof(App));
             Assert.IsInstanceOfType(configLib.Logger, typeof(Logger));
             Assert.IsInstanceOfType(configLib.UUT, typeof(UUT));
         }
