@@ -30,7 +30,7 @@ namespace ABTTestLibraryTests.Logging {
             Assert.AreEqual(lastLine, FIRST_AND_LAST_LINE_TEST_STRING);
             configLib.UUT.SerialNumber = "StartTestTextEnabledGroupRequired";
             RichTextBox rtf= new RichTextBox();
-            LogTasks.Start(configLib, "ClientAssemblyName", "ClientAssemblyVersion", configTest.Group, ref rtf);
+            LogTasks.Start(configLib, "ClientAssemblyVersion", configTest.Group, ref rtf);
             Log.Information($"Hello {Environment.UserName}!");
             Log.CloseAndFlush();
             Assert.IsTrue(File.Exists(LogTasks.LOGGER_FILE));
@@ -95,18 +95,24 @@ namespace ABTTestLibraryTests.Logging {
                 .WriteTo.File(LogTasks.LOGGER_FILE, outputTemplate: LogTasks.LOGGER_TEMPLATE, fileSizeLimitBytes: null, retainedFileCountLimit: null)
                 .CreateLogger();
             Log.Information($"START                  : {DateTime.Now}");
+            Log.Information($"Assembly Version       : {"clientAssemblyVersion"}");
+            AssemblyName an = Assembly.GetExecutingAssembly().GetName();
+            Log.Information($"Library Version        : {an.Version}");
             Log.Information($"UUT Customer           : {configLib.UUT.Customer}");
             Log.Information($"UUT Test Specification : {configLib.UUT.TestSpecification}");
+            Log.Information($"UUT Customer           : {configLib.UUT.Customer}");
+            Log.Information($"UUT Test Specification : {configLib.UUT.TestSpecification}");
+            Log.Information($"UUT Customer           : {configLib.UUT.Customer}");
             Log.Information($"UUT Description        : {configLib.UUT.Description}");
             Log.Information($"UUT Type               : {configLib.UUT.Type}");
             Log.Information($"UUT Number             : {configLib.UUT.Number}");
             Log.Information($"UUT Revision           : {configLib.UUT.Revision}");
-            Log.Information($"UUT Serial Number      : {configLib.UUT.SerialNumber}");
             Log.Information($"UUT Group ID           : {configTest.Group.ID}");
+            Log.Information($"UUT Group Revision     : {configTest.Group.Revision}");
             Log.Information($"UUT Group Summary      : {configTest.Group.Summary}");
             Log.Information($"UUT Group Detail       \n{configTest.Group.Detail}");
-            Log.Information($"Environment.UserName   : {Environment.UserName}\n");
-            Log.Information($"Hello {Environment.UserName}!");
+            Log.Information($"Environment.UserName   : {Environment.UserName}");
+            Log.Information($"UUT Serial Number      : {configLib.UUT.SerialNumber}\n");
             Assert.IsTrue(File.Exists(LogTasks.LOGGER_FILE));
             configLib.UUT.EventCode = EventCodes.PASS;
             // If not set, is EventCodes.UNSET, which isn't allowed in class LogTasks.

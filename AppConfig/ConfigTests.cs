@@ -49,8 +49,10 @@ namespace ABTTestLibraryTests.AppConfig {
                 Assert.AreEqual(g.Value.ID, $"ID{i}", false);
                 if (i == 0) Assert.IsFalse(g.Value.Required);
                 else Assert.IsTrue(g.Value.Required);
+                Assert.AreEqual(g.Value.Revision, $"Revision{i}", false);
                 Assert.AreEqual(g.Value.Summary, $"Summary{i}", false);
                 Assert.AreEqual(g.Value.Detail, $"Detail{i}", false);
+                Assert.AreEqual(g.Value.TestIDs, $"TestIDs{i}", false);
                 i++;
             }
         }
@@ -65,6 +67,7 @@ namespace ABTTestLibraryTests.AppConfig {
             Int32 i = 0;
             foreach (KeyValuePair<String, Test> t in tests) {
                 Assert.AreEqual(t.Value.ID, $"ID{i}", false);
+                Assert.AreEqual(t.Value.Revision, $"Revision{i}", false);
                 Assert.AreEqual(t.Value.Summary, $"Summary{i}", false);
                 Assert.AreEqual(t.Value.Detail, $"Detail{i}", false);
                 // Assert.AreEqual(Tests[t.Key].LimitLow, $"LimitLow{i}", false);
@@ -73,6 +76,7 @@ namespace ABTTestLibraryTests.AppConfig {
                 if (t.Key == "ID9") Assert.AreEqual(t.Value.Units, $"N/A", false);
                 else Assert.AreEqual(t.Value.Units, $"Units{i}", false);
                 Assert.AreEqual(t.Value.UnitType, $"UnitType{i}", false);
+                Assert.AreEqual(t.Value.Measurement, String.Empty, false);
                 Assert.AreEqual(t.Value.Result, EventCodes.UNSET, false);
                 i++;
             }
