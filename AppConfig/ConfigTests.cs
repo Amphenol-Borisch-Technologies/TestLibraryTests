@@ -75,7 +75,7 @@ namespace ABTTestLibraryTests.AppConfig {
                 // Assert.AreEqual(Tests[t.Key].LimitLow, $"LimitLow{i}", false);
                 // Assert.AreEqual(Tests[t.Key].LimitHigh, $"LimitHigh{i}", false);
                 // LimitLow & LimitHigh are tested in class TestSupportTests, method EvaluateTestResultTest
-                if (t.Key == "ID9") Assert.AreEqual(t.Value.Units, $"N/A", false);
+                if (t.Key == "ID9") Assert.AreEqual(t.Value.Units, $"", false);
                 else Assert.AreEqual(t.Value.Units, $"Units{i}", false);
                 Assert.AreEqual(t.Value.UnitType, $"UnitType{i}", false);
                 Assert.AreEqual(t.Value.Measurement, String.Empty, false);
