@@ -30,7 +30,7 @@ namespace ABTTestLibraryTests.Logging {
             Assert.AreEqual(lastLine, FIRST_AND_LAST_LINE_TEST_STRING);
             configLib.UUT.SerialNumber = "StartTestTextEnabledGroupRequired";
             RichTextBox rtf= new RichTextBox();
-            LogTasks.Start(configLib, "ClientAssemblyVersion", configTest.Group, ref rtf);
+            LogTasks.Start(configLib, "LibraryVersion", "AppVersion", configTest.Group, ref rtf);
             Log.Information($"Hello {Environment.UserName}!");
             Log.CloseAndFlush();
             Assert.IsTrue(File.Exists(LogTasks.LOGGER_FILE));
