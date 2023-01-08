@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using ABTTestLibrary.Instruments;
+using TestLibrary.Instruments;
 
 // NOTE: The quality of these MSTest unit tests vary, and some can certainly be improved.
-namespace ABTTestLibraryTests.Instruments {
+namespace TestLibraryTests.Instruments {
     [TestClass()]
     public class InstrumentTests {
         public static Dictionary<String, Instrument> instruments;

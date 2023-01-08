@@ -4,10 +4,10 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Agilent.CommandExpert.ScpiNet.AgE3610XB_1_0_0_1_00;
-using ABTTestLibrary.Instruments;
-using ABTTestLibrary.Instruments.Keysight;
+using TestLibrary.Instruments;
+using TestLibrary.Instruments.Keysight;
 
-namespace ABTTestLibraryTests.Instruments.Keysight {
+namespace TestLibraryTests.Instruments.Keysight {
     [TestClass()]
     public class E3610xBTests {
         public AgE3610XB AgE3610XB;

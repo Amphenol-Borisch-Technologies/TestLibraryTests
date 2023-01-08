@@ -3,13 +3,13 @@ using System;
 using System.Linq;
 using Serilog;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ABTTestLibrary.Config;
-using ABTTestLibrary.TestSupport;
-using ABTTestLibrary.Logging;
+using TestLibrary.Config;
+using TestLibrary.TestSupport;
+using TestLibrary.Logging;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace ABTTestLibraryTests.Logging {
+namespace TestLibraryTests.Logging {
     [TestClass()]
     public class LoggingTests {
         [TestMethod()]

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using ABTTestLibrary.Config;
-using ABTTestLibrary.TestSupport;
+using TestLibrary.Config;
+using TestLibrary.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace ABTTestLibraryTests.TestSupport {
+namespace TestLibraryTests.TestSupport {
     [TestClass()]
     public class TestSupportTests {
         [TestMethod()]

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ABTTestLibrary.Config;
-using ABTTestLibrary.TestSupport;
+using TestLibrary.Config;
+using TestLibrary.TestSupport;
 // Also indirectly tests App.config & Config.cs.
 
-namespace ABTTestLibraryTests.AppConfig {
+namespace TestLibraryTests.AppConfig {
     [TestClass()]
     public class ConfigTests {
         [TestMethod()]
@@ -16,7 +16,7 @@ namespace ABTTestLibraryTests.AppConfig {
 
         private void LoggerSubTest(Logger logger) {
             Assert.IsTrue(logger.FileEnabled);
-            Assert.AreEqual(logger.FilePath, "ABTTestLibraryLog.txt", false);
+            Assert.AreEqual(logger.FilePath, "TestLibraryLog.txt", false);
             Assert.AreEqual(logger.SQLConnectionString, String.Empty);
             Assert.IsFalse(logger.SQLEnabled);
         }

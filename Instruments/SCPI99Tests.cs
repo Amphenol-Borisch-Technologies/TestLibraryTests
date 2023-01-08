@@ -1,12 +1,12 @@
-﻿using ABTTestLibrary.Config;
-using ABTTestLibrary.Instruments;
+﻿using TestLibrary.Config;
+using TestLibrary.Instruments;
 using Agilent.CommandExpert.ScpiNet.AgSCPI99_1_0;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace ABTTestLibraryTests.Instruments {
+namespace TestLibraryTests.Instruments {
     [TestClass()]
     public class SCPI99Tests {
         public AgSCPI99 AG_SCPI99;
