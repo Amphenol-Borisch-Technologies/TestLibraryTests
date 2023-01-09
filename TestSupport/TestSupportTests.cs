@@ -225,7 +225,7 @@ namespace TestLibraryTests.TestSupport {
                 // If any result is ERROR, always evaluate to ERROR.
                 t.Value.Result = EventCodes.UNSET;
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
-                t.Value.Result = EventCodes.ABORT;
+                t.Value.Result = EventCodes.CANCEL;
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.FAIL;
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
@@ -237,31 +237,31 @@ namespace TestLibraryTests.TestSupport {
             foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.UNSET;
             Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateUUTResult(configTest));
             foreach (KeyValuePair<String, Test> t in configTest.Tests) {
-                // In the absence of ERROR & ABORT, any result = UNSET throws exception.
+                // In the absence of ERROR & CANCEL, any result = UNSET throws exception.
                 t.Value.Result = EventCodes.FAIL;
                 Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateUUTResult(configTest));
                 t.Value.Result = EventCodes.PASS;
                 Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateUUTResult(configTest));
-                t.Value.Result = EventCodes.ABORT;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
+                t.Value.Result = EventCodes.CANCEL;
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.CANCEL);
                 t.Value.Result = EventCodes.UNSET;
             }
 
-            foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.ABORT;
-            Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.CANCEL;
+            Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.CANCEL);
             foreach (KeyValuePair<String, Test> t in configTest.Tests) {
-                // In the absence of ERROR & UNSET, any result = ABORT evaluates to ABORT.
+                // In the absence of ERROR & UNSET, any result = CANCEL evaluates to CANCEL.
                 t.Value.Result = EventCodes.FAIL;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.CANCEL);
                 t.Value.Result = EventCodes.PASS;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
-                t.Value.Result = EventCodes.ABORT;
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.CANCEL);
+                t.Value.Result = EventCodes.CANCEL;
             }
 
             foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.FAIL;
             Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.FAIL);
             foreach (KeyValuePair<String, Test> t in configTest.Tests) {
-                // In the absence of ERROR, UNSET and ABORT, any result = FAIL evaluates to FAIL.
+                // In the absence of ERROR, UNSET and CANCEL, any result = FAIL evaluates to FAIL.
                 t.Value.Result = EventCodes.PASS;
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.FAIL);
                 t.Value.Result = EventCodes.FAIL;
@@ -275,8 +275,8 @@ namespace TestLibraryTests.TestSupport {
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ERROR);
                 t.Value.Result = EventCodes.UNSET;
                 Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateUUTResult(configTest));
-                t.Value.Result = EventCodes.ABORT;
-                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.ABORT);
+                t.Value.Result = EventCodes.CANCEL;
+                Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.CANCEL);
                 t.Value.Result = EventCodes.FAIL;
                 Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.FAIL);
                 t.Value.Result = EventCodes.PASS;
