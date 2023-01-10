@@ -5,7 +5,6 @@ using TestLibrary.Config;
 using TestLibrary.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TestLibraryTests.TestSupport {
     [TestClass()]
