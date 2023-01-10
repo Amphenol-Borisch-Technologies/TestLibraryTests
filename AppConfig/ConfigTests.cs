@@ -4,9 +4,14 @@ using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestLibrary.Config;
 using TestLibrary.TestSupport;
-// Also indirectly tests App.config & Config.cs.
+
+//  References:
+//  - https://github.com/Amphenol-Borisch-Technologies/TestLibrary
+//  - https://github.com/Amphenol-Borisch-Technologies/TestProgram
+//  - https://github.com/Amphenol-Borisch-Technologies/TestLibraryTests
 
 namespace TestLibraryTests.AppConfig {
+    // Also indirectly tests App.config & Config.cs.
     [TestClass()]
     public class ConfigTests {
         [TestMethod()]
