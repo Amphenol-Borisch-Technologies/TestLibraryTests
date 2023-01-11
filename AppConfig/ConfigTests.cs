@@ -21,7 +21,7 @@ namespace TestLibraryTests.AppConfig {
 
         private void LoggerSubTest(Logger logger) {
             Assert.IsTrue(logger.FileEnabled);
-            Assert.AreEqual(logger.FilePath, "TestLibraryLog.txt", false);
+            Assert.AreEqual(logger.FilePath, "LOGGER_FilePath", false);
             Assert.AreEqual(logger.SQLConnectionString, String.Empty);
             Assert.IsFalse(logger.SQLEnabled);
         }
@@ -38,6 +38,7 @@ namespace TestLibraryTests.AppConfig {
             Assert.AreEqual(uut.Revision, "UUT_Revision", false);
             Assert.AreEqual(uut.Description, "UUT_Description", false);
             Assert.AreEqual(uut.TestSpecification, "UUT_TestSpecification", false);
+            Assert.AreEqual(uut.DocumentationFolder, "UUT_DocumentationFolder", false);
             Assert.AreEqual(uut.SerialNumber, String.Empty, false);
             Assert.AreEqual(uut.EventCode, EventCodes.UNSET, false);
         }
