@@ -21,7 +21,7 @@ namespace TestLibraryTests.AppConfig {
 
         private void LoggerSubTest(Logger logger) {
             Assert.IsTrue(logger.FileEnabled);
-            Assert.AreEqual(logger.FilePath, "LOGGER_FilePath", false);
+            Assert.AreEqual(logger.FilePath, @"LOGGER_FilePath\", false);
             Assert.AreEqual(logger.SQLConnectionString, String.Empty);
             Assert.IsFalse(logger.SQLEnabled);
         }
@@ -95,7 +95,7 @@ namespace TestLibraryTests.AppConfig {
             Dictionary<String, Group> Groups = Group.Get();
             DialogResult dr;
             foreach (KeyValuePair<String, Group> g in Groups) {
-                dr = MessageBox.Show($"Select Group {g.Key}", $"Select Group {g.Key}", MessageBoxButtons.OKCancel);
+                dr = MessageBox.Show($"Select Group '{g.Key}', where Required = '{g.Value.Required.ToString()}'", $"Select Group {g.Key}", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.Cancel) Assert.Inconclusive();
                 String gs = GroupSelect.Get(Groups);
                 Assert.AreEqual(gs, g.Key);

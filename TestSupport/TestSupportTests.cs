@@ -5,6 +5,7 @@ using TestLibrary.Config;
 using TestLibrary.TestSupport;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TestLibraryTests.TestSupport {
     [TestClass()]
@@ -95,28 +96,16 @@ namespace TestLibraryTests.TestSupport {
             Assert.AreEqual(e.Message, $"Invalid measurement; App.config TestElement ID '{ID}' Measurement '{tests[ID].Measurement}' ≠ System.Double.");
             Console.WriteLine(e.Message);
 
-            //   - LimitLow is allowed to be > LimitHigh if both parse to Double.
-            //     This simply excludes a range of measurements from passing, rather than including a range from passing.
+            //   - LimitLow is > LimitHigh & both parse to Double.
             ID = "ID5";
             Assert.AreEqual(tests[ID].LimitLow, "1", false);
             Assert.AreEqual(tests[ID].LimitHigh, "0", false);
             Assert.IsTrue(Double.TryParse(tests[ID].LimitLow, out _));
             Assert.IsTrue(Double.TryParse(tests[ID].LimitHigh, out _));
             tests[ID].Measurement = "-0.5";
-            eventCode = TestTasks.EvaluateTestResult(tests[ID]);
-            Assert.AreEqual(eventCode, EventCodes.PASS);
-            tests[ID].Measurement = tests[ID].LimitLow;
-            eventCode = TestTasks.EvaluateTestResult(tests[ID]);
-            Assert.AreEqual(eventCode, EventCodes.PASS);
-            tests[ID].Measurement = "0.5";
-            eventCode = TestTasks.EvaluateTestResult(tests[ID]);
-            Assert.AreEqual(eventCode, EventCodes.FAIL);
-            tests[ID].Measurement = tests[ID].LimitHigh;
-            eventCode = TestTasks.EvaluateTestResult(tests[ID]);
-            Assert.AreEqual(eventCode, EventCodes.PASS);
-            tests[ID].Measurement = "1.5";
-            eventCode = TestTasks.EvaluateTestResult(tests[ID]);
-            Assert.AreEqual(eventCode, EventCodes.PASS);
+            e = Assert.ThrowsException<InvalidOperationException>(() => TestTasks.EvaluateTestResult(tests[ID]));
+            Assert.AreEqual(e.Message, $"Invalid Limit; App.config TestElement ID '{ID}' LimitLow '{tests[ID].LimitLow}' > LimitHigh '{tests[ID].LimitHigh}'.");
+            Console.WriteLine(e.Message);
 
             //   - LimitLow is allowed to be = LimitHigh if both parse to Double.
             ID = "ID6";
@@ -205,14 +194,14 @@ namespace TestLibraryTests.TestSupport {
 
         [TestMethod()]
         public void EvaluateUUTResultTest() {
-            DialogResult dr = MessageBox.Show($"Select Group ID0", $"Select Group ID0", MessageBoxButtons.OKCancel);
+            DialogResult dr = MessageBox.Show($"Select Group 'ID0', where Required = 'False'", $"Select Group 'ID0'", MessageBoxButtons.OKCancel);
             if (dr == DialogResult.Cancel) Assert.Inconclusive();
             ConfigTest configTest = ConfigTest.Get();
             foreach (KeyValuePair<String, Test> t in configTest.Tests) t.Value.Result = EventCodes.PASS;
             Assert.IsFalse(configTest.Group.Required);
             Assert.AreEqual(TestTasks.EvaluateUUTResult(configTest), EventCodes.UNSET);
 
-            dr = MessageBox.Show($"Select Group ID1", $"Select Group ID1", MessageBoxButtons.OKCancel);
+            dr = MessageBox.Show($"Select Group 'ID1', where Required = 'True'", $"Select Group 'ID1'", MessageBoxButtons.OKCancel);
             if (dr == DialogResult.Cancel) Assert.Inconclusive();
             configTest = ConfigTest.Get();
             Assert.IsTrue(configTest.Group.Required);
