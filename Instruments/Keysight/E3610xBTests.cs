@@ -31,7 +31,7 @@ namespace TestLibraryTests.Instruments.Keysight {
         [TestMethod()]
         public void RemoteOnTest() {
             foreach (KeyValuePair<String, Instrument> i in instruments) {
-                E3610xB.RemoteOn(i.Value);
+                E3610xB.Remote(i.Value);
                 AgE3610XB = new AgE3610XB(i.Value.Address);
                 AgE3610XB.SCPI.SYSTem.COMMunicate.RLSTate.Query(out String RemoteLockState);
                 Console.WriteLine(InstrumentTasks.GetMessage(i.Value, $"Remote Lock State: {RemoteLockState}"));
@@ -42,7 +42,7 @@ namespace TestLibraryTests.Instruments.Keysight {
         [TestMethod()]
         public void RemoteLockOnTest() {
             foreach (KeyValuePair<String, Instrument> i in instruments) {
-                E3610xB.RemoteLockOn(i.Value);
+                E3610xB.RemoteLock(i.Value);
                 AgE3610XB = new AgE3610XB(i.Value.Address);
                 AgE3610XB.SCPI.SYSTem.COMMunicate.RLSTate.Query(out String RemoteLockState);
                 Console.WriteLine(InstrumentTasks.GetMessage(i.Value, $"Remote Lock State: {RemoteLockState}"));
