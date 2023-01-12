@@ -1,6 +1,10 @@
 ﻿using TestLibrary.Config;
 using TestLibrary.Instruments;
 using Agilent.CommandExpert.ScpiNet.AgSCPI99_1_0;
+// All Agilent.CommandExpert.ScpiNet drivers are created by adding new instruments in Keysight's Command Expert app software.
+//  - Command Expert literally downloads & installs Agilent.CommandExpert.ScpiNet drivers when new instruments are added.
+//  - The Agilent.CommandExpert.ScpiNet dirvers are installed into folder C:\ProgramData\Keysight\Command Expert\ScpiNetDrivers.
+// https://www.keysight.com/us/en/lib/software-detail/computer-software/command-expert-downloads-2151326.html
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
