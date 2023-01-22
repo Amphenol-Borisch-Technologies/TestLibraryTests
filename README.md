@@ -1,6 +1,6 @@
 # TestLibraryTests are basic MSTest unit tests of sibling project TestLibrary.
 
-  Sibling projects TestLibrary + TestProgram together comprise a simple functional test sequencer.
+  Sibling projects TestLibrary + TestProgram together comprise a simple functional test sequencer/test executive.
   
   References:
   - https://github.com/Amphenol-Borisch-Technologies/TestLibrary
