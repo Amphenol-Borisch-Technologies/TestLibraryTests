@@ -18,7 +18,7 @@ namespace TestLibraryTests.Instruments.Keysight {
     [TestClass()]
     public class E3610xBTests {
         public AgE3610XB AgE3610XB;
-        public static Dictionary<String, Instrument> instruments;
+        public static Dictionary<INSTRUMENTS, Instrument> instruments;
         public static DialogResult dr;
 
         [ClassInitialize]
@@ -30,7 +30,7 @@ namespace TestLibraryTests.Instruments.Keysight {
 
         [TestMethod()]
         public void RemoteOnTest() {
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 E3610xB.Remote(i.Value);
                 AgE3610XB = new AgE3610XB(i.Value.Address);
                 AgE3610XB.SCPI.SYSTem.COMMunicate.RLSTate.Query(out String RemoteLockState);
@@ -41,7 +41,7 @@ namespace TestLibraryTests.Instruments.Keysight {
 
         [TestMethod()]
         public void RemoteLockOnTest() {
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 E3610xB.RemoteLock(i.Value);
                 AgE3610XB = new AgE3610XB(i.Value.Address);
                 AgE3610XB.SCPI.SYSTem.COMMunicate.RLSTate.Query(out String RemoteLockState);
@@ -53,7 +53,7 @@ namespace TestLibraryTests.Instruments.Keysight {
 
         [TestMethod()]
         public void IsOffTest() {
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 AgE3610XB = new AgE3610XB(i.Value.Address);
                 AgE3610XB.SCPI.OUTPut.STATe.Command(false);
                 AgE3610XB.SCPI.OUTPut.STATe.Query(out Boolean IsOn);
@@ -64,7 +64,7 @@ namespace TestLibraryTests.Instruments.Keysight {
 
         [TestMethod()]
         public void IsOnTest() {
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 AgE3610XB = new AgE3610XB(i.Value.Address);
                 AgE3610XB.SCPI.SOURce.VOLTage.SENSe.SOURce.Command("INTernal");
                 AgE3610XB.SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command(0.5);
@@ -81,7 +81,7 @@ namespace TestLibraryTests.Instruments.Keysight {
 
         [TestMethod()]
         public void OffTest() {
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 E3610xB.Off(i.Value);
                 AgE3610XB = new AgE3610XB(i.Value.Address);
                 AgE3610XB.SCPI.OUTPut.STATe.Query(out Boolean IsOn);
@@ -92,7 +92,7 @@ namespace TestLibraryTests.Instruments.Keysight {
 
         [TestMethod()]
         public void ONTest() {
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 E3610xB.ON(i.Value, 0.5, 0.5);
                 AgE3610XB = new AgE3610XB(i.Value.Address);
                 AgE3610XB.SCPI.OUTPut.STATe.Query(out Boolean IsOn);
@@ -108,7 +108,7 @@ namespace TestLibraryTests.Instruments.Keysight {
 
         [TestMethod()]
         public void MeasureVATest() {
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 AgE3610XB = new AgE3610XB(i.Value.Address);
                 AgE3610XB.SCPI.SOURce.VOLTage.LEVel.IMMediate.AMPLitude.Command(0.5);
                 AgE3610XB.SCPI.SOURce.CURRent.LEVel.IMMediate.AMPLitude.Command(0.5);

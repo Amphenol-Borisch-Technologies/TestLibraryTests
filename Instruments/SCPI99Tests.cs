@@ -17,7 +17,7 @@ namespace TestLibraryTests.Instruments {
     [TestClass()]
     public class SCPI99Tests {
         public AgSCPI99 AG_SCPI99;
-        public static Dictionary<String, Instrument> instruments;
+        public static Dictionary<INSTRUMENTS, Instrument> instruments;
         public static DialogResult dr;
 
         [ClassInitialize]
@@ -29,7 +29,7 @@ namespace TestLibraryTests.Instruments {
 
         [TestMethod()]
         public void ResetTest() {
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 Console.WriteLine(InstrumentTasks.GetMessage(i.Value));
                 SCPI99.Reset(i.Value.Address);
                 AG_SCPI99 = new AgSCPI99(i.Value.Address);
@@ -43,7 +43,7 @@ namespace TestLibraryTests.Instruments {
         [TestMethod()]
         public void SelfTestTest() {
             Int32 SelfTestResult;
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 Console.WriteLine(InstrumentTasks.GetMessage(i.Value));
                 AG_SCPI99 = new AgSCPI99(i.Value.Address);
                 AG_SCPI99.SCPI.RST.Command();
@@ -55,7 +55,7 @@ namespace TestLibraryTests.Instruments {
         [TestMethod()]
         public void QuestionConditionTest() {
             Int32 ConditionRegister;
-            foreach (KeyValuePair<String, Instrument> i in instruments) {
+            foreach (KeyValuePair<INSTRUMENTS, Instrument> i in instruments) {
                 Console.WriteLine(InstrumentTasks.GetMessage(i.Value));
                 AG_SCPI99 = new AgSCPI99(i.Value.Address);
                 AG_SCPI99.SCPI.RST.Command();

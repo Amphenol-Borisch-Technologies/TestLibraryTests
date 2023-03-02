@@ -56,8 +56,8 @@ namespace TestLibraryTests.AppConfig {
                 if (i == 0) Assert.IsFalse(g.Value.Required);
                 else Assert.IsTrue(g.Value.Required);
                 Assert.AreEqual(g.Value.Revision, $"Revision{i}", false);
-                Assert.AreEqual(g.Value.Summary, $"Summary{i}", false);
-                Assert.AreEqual(g.Value.Detail, $"Detail{i}", false);
+                Assert.AreEqual(g.Value.Name, $"Name{i}", false);
+                Assert.AreEqual(g.Value.Description, $"Description{i}", false);
                 if (i == 0) Assert.AreEqual(g.Value.TestIDs, "ID0", false);
                 if (i == 1) Assert.AreEqual(g.Value.TestIDs, "ID0|ID1", false);
                 if (i == 2) Assert.AreEqual(g.Value.TestIDs, "ID0|ID1|ID2", false);
@@ -71,20 +71,14 @@ namespace TestLibraryTests.AppConfig {
         }
 
         private void TestSubTest(Dictionary<String, Test> tests) {
-            Assert.AreEqual(tests.Count, 11);
+            Assert.AreEqual(tests.Count, 4);
             Int32 i = 0;
             foreach (KeyValuePair<String, Test> t in tests) {
                 Assert.AreEqual(t.Value.ID, $"ID{i}", false);
+                Assert.AreEqual(t.Value.Description, $"Description{i}", false);
                 Assert.AreEqual(t.Value.Revision, $"Revision{i}", false);
-                Assert.AreEqual(t.Value.Summary, $"Summary{i}", false);
-                Assert.AreEqual(t.Value.Detail, $"Detail{i}", false);
-                // Assert.AreEqual(Tests[t.Key].LimitLow, $"LimitLow{i}", false);
-                // Assert.AreEqual(Tests[t.Key].LimitHigh, $"LimitHigh{i}", false);
-                // LimitLow & LimitHigh are tested in class TestSupportTests, method EvaluateTestResultTest
-                if (t.Key == "ID9") Assert.AreEqual(t.Value.Units, $"", false);
-                else Assert.AreEqual(t.Value.Units, $"Units{i}", false);
-                Assert.AreEqual(t.Value.UnitType, $"UnitType{i}", false);
-                Assert.AreEqual(t.Value.Measurement, String.Empty, false);
+                if (String.Equals(t.Value.ClassName, TestNumerical.ClassName)) Assert.AreEqual(t.Value.Measurement, Double.NaN.ToString(), false);
+                else Assert.AreEqual(t.Value.Measurement, String.Empty, false);
                 Assert.AreEqual(t.Value.Result, EventCodes.UNSET, false);
                 i++;
             }
@@ -115,7 +109,7 @@ namespace TestLibraryTests.AppConfig {
             Assert.IsInstanceOfType(configTest.Group, typeof(Group));
             Assert.IsInstanceOfType(configTest.Tests, typeof(Dictionary<String, Test>));
             Console.WriteLine($"config.Group.ID='{configTest.Group.ID}'");
-            foreach (KeyValuePair<String, Test> t in configTest.Tests) Console.WriteLine($"ID='{t.Value.ID}', Summary='{t.Value.Summary}', Detail='{t.Value.Detail}'");
+            foreach (KeyValuePair<String, Test> t in configTest.Tests) Console.WriteLine($"ID='{t.Value.ID}', Description='{t.Value.Description}', ClassName='{t.Value.ClassName}'");
         }
     }
 }
